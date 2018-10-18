@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -36,12 +36,13 @@ import org.apache.commons.text.RandomStringGenerator;
 public class tallerEntregableApp {
 
     public static void main(String[] args) throws IOException {
-        registroCivil();
-        clienteTemp();
-        departamentoEEUU();
-        consejoJudicatura();
-        clientesRestringidosConsejo();
-        clientesRestringidosDepartamento();
+        //registroCivil();
+        //clienteTemp();
+        //departamentoEEUU();
+        //consejoJudicatura();
+        //clientesRestringidosConsejo();
+        //clientesRestringidosDepartamento();
+        posiblesRestringuidos();
     }
 
     public static void registroCivil() throws FileNotFoundException, IOException {
@@ -49,6 +50,7 @@ public class tallerEntregableApp {
         List<String> nombreHombres = new ArrayList<>();
         List<String> nombreMujeres = new ArrayList<>();
         List<String> apellidos = new ArrayList<>();
+        GregorianCalendar gc = new GregorianCalendar();
 
         int aux, provincia, al, posHombre, posMujer, posApellido = 0;
 
@@ -71,15 +73,17 @@ public class tallerEntregableApp {
         }
 
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i <= 10000; i++) {
             posHombre = aleatorio.nextInt(500);
             posMujer = aleatorio.nextInt(500);
             posApellido = aleatorio.nextInt(500);
             provincia = aleatorio.nextInt(24);
-
-            Calendar calendario = GregorianCalendar.getInstance();
-            Date fecha = calendario.getTime();
-            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("yy-mm-dd");
+            
+            int year = randBetween(50, 99);
+            gc.set(gc.YEAR, year);
+            int dayOfYear = randBetween(1, gc.getActualMaximum(gc.DAY_OF_YEAR));
+            gc.set(gc.DAY_OF_YEAR, dayOfYear);
+            String fecha = gc.get(gc.YEAR) + "-" + (gc.get(gc.MONTH) + 1) + "-" + gc.get(gc.DAY_OF_MONTH);
 
             al = aleatorio.nextInt(3);
             if (al == 0) {
@@ -91,14 +95,20 @@ public class tallerEntregableApp {
             sb.append(',');
             sb.append(apellidos.get(posApellido));
             sb.append(',');
+            sb.append(apellidos.get(posApellido + 1));
+            sb.append(',');
             if (aux == 1) {
                 sb.append(nombreHombres.get(posHombre));
+                sb.append(',');
+                sb.append(nombreHombres.get(posHombre + 1));
                 sb.append(',');
             } else {
                 sb.append(nombreMujeres.get(posMujer));
                 sb.append(',');
+                sb.append(nombreMujeres.get(posMujer + 1));
+                sb.append(',');
             }
-            sb.append(formatoDeFecha.format(fecha));
+            sb.append(fecha);
             sb.append(',');
             sb.append(provincia);
             sb.append(',');
@@ -145,27 +155,29 @@ public class tallerEntregableApp {
 
         FileReader rC = new FileReader("C://tmp//registroCivil.txt");
         BufferedReader rC1 = new BufferedReader(rC);
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i <= 500; i++) { 
             listaRC.add(rC1.readLine());
         }
 
         StringBuffer clienteTemp = new StringBuffer();
         for (String crearCliente : listaRC) {
-            System.out.println(crearCliente);
-          String[] parts = crearCliente.split(",");
+            //System.out.println(crearCliente);
+            String[] parts = crearCliente.split(",");
             clienteTemp.append(parts[0]);
             clienteTemp.append(',');
             clienteTemp.append(parts[1]);
             clienteTemp.append(',');
             clienteTemp.append(parts[2]);
             clienteTemp.append(',');
-            clienteTemp.append(parts[1] + " " + parts[2]);
-            clienteTemp.append(',');
             clienteTemp.append(parts[3]);
             clienteTemp.append(',');
             clienteTemp.append(parts[4]);
             clienteTemp.append(',');
-            String cual = parts[5];
+            clienteTemp.append(parts[5]);
+            clienteTemp.append(',');
+            clienteTemp.append(parts[6]);
+            clienteTemp.append(',');
+            String cual = parts[7];
             if (cual.equals("F")) {
                 reemplazoGenero = 1;
             } else {
@@ -173,7 +185,7 @@ public class tallerEntregableApp {
             }
             clienteTemp.append(reemplazoGenero);
             clienteTemp.append(',');
-            String cualquiera = parts[6];
+            String cualquiera = parts[8];
             if (cualquiera.equals("SOL")) {
                 reemplazoECivil = 1;
             } else if (cualquiera.equals("CAS")) {
@@ -336,7 +348,7 @@ public class tallerEntregableApp {
         FileReader ArchivoBancoEEUU = new FileReader("C://tmp//consejoJudicatura.txt");
         BufferedReader banco = new BufferedReader(ArchivoBancoEEUU);
 
-        for (int i = 0; i <= 200; i++) {
+        for (int i = 0; i < 200; i++) { //hasta 200
 
             bancoEEUU.add(banco.readLine());
 
@@ -407,7 +419,116 @@ public class tallerEntregableApp {
 
         } catch (IOException iOException) {
         }
-
     }
 
+    public static void posiblesRestringuidos() throws FileNotFoundException, IOException {
+        List<String> registroCivil = new ArrayList<>();
+        List<String> restrinccionEEUU = new ArrayList<>();
+        List<String> restrinccionECU = new ArrayList<>();
+        FileReader archivoRC = new FileReader("C://tmp//registroCivil.txt");
+        FileReader archivoRestringuidoEEUU = new FileReader("C://tmp//subirSistemaDepartamentoEEUU.txt");
+        FileReader archivoRestringuidoECU = new FileReader("C://tmp//subirSistemaConsejoJudicatura.txt");
+        BufferedReader registroC = new BufferedReader(archivoRC);
+        BufferedReader EEUU = new BufferedReader(archivoRestringuidoEEUU);
+        BufferedReader ECU = new BufferedReader(archivoRestringuidoECU);
+        String cedulaRC = "";
+        String cedulaECU = "";
+        String cedulaEEUU = "";
+        String nombres = "";
+        String apellidos = "";
+        String nombresApellidos = "";
+        String primerNombre = "";
+        String segundoNombre = "";
+        String primerApellido = "";
+        String segundoApellido = "";
+        String tipoCoincide = "";
+
+        for (int i = 0; i < 1; i++) { //10000
+            registroCivil.add(registroC.readLine()); //Archivo de Registro Civil
+        }
+        for (int i = 0; i < 1; i++) { //500
+            restrinccionEEUU.add(EEUU.readLine()); //Archivo EEUU
+        }
+        for (int i = 0; i < 1; i++) { //200
+            restrinccionECU.add(ECU.readLine()); //Archivo ECU
+        }
+
+        //Almacenar la cédula de registro Civil
+        StringBuffer sb = new StringBuffer();
+        for (String rC : registroCivil) {
+            String[] partes = rC.split(",");
+            cedulaRC = partes[0];
+            primerApellido = partes[1];
+            segundoApellido = partes[2];
+            primerNombre = partes[3];
+            segundoNombre = partes[4];
+            for (String eC : restrinccionECU) {
+                String[] partesEC = eC.split(",");
+                cedulaECU = partesEC[0];
+                nombres = partesEC[2];
+                apellidos = partesEC[3];
+                nombresApellidos = partesEC[4];
+                //System.out.println(nombresApellidos);
+                if (cedulaRC.equals(cedulaECU)) {
+                    //System.out.println("Entra al if");
+                    tipoCoincide = "Cedula";
+                    sb.append(cedulaRC);
+                    sb.append(',');
+                    sb.append(tipoCoincide);
+                } else if ((primerNombre + " " + segundoNombre + " " + primerApellido + " " + segundoApellido).equals(nombresApellidos)) {
+                    tipoCoincide = "Nombres y Apellidos";
+                    sb.append(cedulaRC);
+                    sb.append(',');
+                    sb.append(tipoCoincide);
+                } else {
+                    System.out.println("No coincide ninguno");
+                }
+                sb.append('\n');
+            }
+            for (String eU : restrinccionEEUU) {
+                String primerNombreEU = "";
+                String segundoNombreEU = "";
+                String primerApellidoEU = "";
+                String segundoApellidoEU = "";
+                String[] partesEU = eU.split(",");
+                cedulaEEUU = partesEU[1];
+                primerNombreEU = partesEU[4];
+                segundoNombreEU = partesEU[5];
+                primerApellidoEU = partesEU[2];
+                segundoApellidoEU = partesEU[3];
+                System.out.println(primerNombre + " " + primerApellido);
+                System.out.println("Nombres estados Unidos: "+primerNombreEU+" "+primerApellidoEU);
+                if (cedulaRC.equals(cedulaEEUU)) {
+                    System.out.println("Entra al if");
+                    tipoCoincide = "Cedula";
+                    sb.append(cedulaRC);
+                    sb.append(',');
+                    sb.append(tipoCoincide);
+                } else if ((primerNombre + " " + primerApellido).equals(primerNombreEU+" "+primerApellidoEU)) {
+                    //System.out.println("Entro al else");
+                    tipoCoincide = "Primer Nombre y Primer Apellido";
+                    sb.append(cedulaRC);
+                    sb.append(',');
+                    sb.append(tipoCoincide);
+                } else if ((primerNombre + " " + segundoNombre + " " + primerApellido + " " + segundoApellido).equals(primerNombreEU+" "+segundoNombreEU+" "+primerApellidoEU+" "+segundoApellidoEU)) {
+                    //System.out.println("Entro al else");
+                    tipoCoincide = "Nombres y Apellidos";
+                    sb.append(cedulaRC);
+                    sb.append(',');
+                    sb.append(tipoCoincide);
+                } else {
+                    System.out.println("No coincide ninguno");
+                }
+                sb.append('\n');
+            }
+        }
+        System.out.println(primerNombre + " " + segundoNombre + " " + primerApellido + " " + segundoApellido);
+        File file = new File("C://tmp//archivoCoincidencias.txt");
+
+        try {
+            FileUtils.write(file, sb.toString());
+
+        } catch (IOException iOException) {
+        }
+    }
 }
