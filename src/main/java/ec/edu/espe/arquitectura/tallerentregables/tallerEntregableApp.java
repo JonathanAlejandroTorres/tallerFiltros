@@ -55,7 +55,7 @@ public class tallerEntregableApp {
         BufferedReader b2 = new BufferedReader(nM);
         FileReader a = new FileReader("C://tmp//apellidos.txt");
         BufferedReader b3 = new BufferedReader(a);
-        
+        //
         String cedula = Cedulagenerator.generate(10);
         String provincia = Provinciagenerator.generate(2);
         for(int i=0; i<= 500; i++){
@@ -130,6 +130,9 @@ public class tallerEntregableApp {
         } catch (IOException iOException) {
         }
         long stop = System.currentTimeMillis();
+    }
+    public static void nuevo(){
+        System.out.println("nuevo");
     }
 }
 
