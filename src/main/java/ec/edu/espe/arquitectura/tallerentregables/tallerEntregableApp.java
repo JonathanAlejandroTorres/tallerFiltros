@@ -49,7 +49,7 @@ public class tallerEntregableApp {
         BufferedReader b2 = new BufferedReader(nM);
         FileReader a = new FileReader("C://tmp//apellidos.txt");
         BufferedReader b3 = new BufferedReader(a);
-        
+        //
         String cedula = Cedulagenerator.generate(10);
         String provincia = Provinciagenerator.generate(2);
 
