@@ -31,7 +31,8 @@ public class tallerEntregableApp {
         List<String> nombreHombres = new ArrayList<String>();
         List<String> nombreMujeres = new ArrayList<String>();        
         List<String> apellidos = new ArrayList<String>();
-        int aux = 0;
+        int aux=0;
+        int posHombre, posMujer, posApellido;
 
         RandomStringGenerator Cedulagenerator = new RandomStringGenerator.Builder()
                 .withinRange('0', '9').build();
@@ -57,38 +58,37 @@ public class tallerEntregableApp {
         
         String cedula = Cedulagenerator.generate(10);
         String provincia = Provinciagenerator.generate(2);
-        
-        for(int i=0; i<= nombreHombres.size(); i++){
+        for(int i=0; i<= 500; i++){
             nombreHombres.add(b1.readLine());
             //System.out.println(nombreHombres);
         }
-        for(int i=0; i<= nombreMujeres.size(); i++){
+        for(int i=0; i<= 500; i++){
             nombreMujeres.add(b2.readLine());
             //System.out.println(nombreMujeres);
         }
-        for(int i=0; i<= apellidos.size(); i++){
+        for(int i=0; i<= 500; i++){
             apellidos.add(b3.readLine());
-            System.out.println(apellidos);
+            //System.out.println(apellidos);
         }
         
+        Random aleatorio = new Random();
+        Random estado = new Random();
+        
+                
         StringBuffer sb = new StringBuffer();
         for (int i = 1; i <= 10; i++) {
             while ((cadena = b3.readLine()) != null) {
                 //cadenaHombre = b1.readLine();
+                posHombre = aleatorio.nextInt(500);
                 cadenaMujer = b2.readLine();
                 sb.append(Cedulagenerator.generate(10));
                 sb.append(',');
                 sb.append(cadena);
                 sb.append(',');
-                if(aux!=1)
-                {
-                    //sb.append(cadenaHombre);
-                    sb.append(nombreHombres);
-                    sb.append(',');
-                } else{
-                    sb.append(cadenaMujer);                                        
-                    sb.append(',');
-                }
+                sb.append(nombreHombres.get(posHombre).toString());
+                sb.append(',');
+                //sb.append(cadenaMujer);                                        
+                //sb.append(',');
                 sb.append(Diagenerator.generate(2));
                 sb.append('/');
                 sb.append(Mesgenerator.generate(2));
@@ -97,8 +97,6 @@ public class tallerEntregableApp {
                 sb.append(',');
                 sb.append(provincia);
                 sb.append(',');
-                Random aleatorio = new Random();
-                Random estado = new Random();
                 
                 int al = aleatorio.nextInt(3);
                 if (al == 0) {
