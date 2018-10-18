@@ -114,6 +114,9 @@ public class tallerEntregableApp {
         }
         long stop = System.currentTimeMillis();
     }
+    public static void nuevo(){
+        System.out.println("nuevo");
+    }
 }
 
 /*Scanner in, ni = null;
