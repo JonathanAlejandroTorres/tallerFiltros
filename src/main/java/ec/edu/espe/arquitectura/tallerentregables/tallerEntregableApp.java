@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -26,6 +28,9 @@ public class tallerEntregableApp {
 
     public static void main(String[] args) throws IOException, IOException, IOException {
         String cadena, cadenaHombre, cadenaMujer = null;
+        List<String> nombreHombres = new ArrayList<String>();
+        List<String> nombreMujeres = new ArrayList<String>();        
+        List<String> apellidos = new ArrayList<String>();
         int aux = 0;
 
         RandomStringGenerator Cedulagenerator = new RandomStringGenerator.Builder()
@@ -52,11 +57,24 @@ public class tallerEntregableApp {
         //
         String cedula = Cedulagenerator.generate(10);
         String provincia = Provinciagenerator.generate(2);
-
+        
+        for(int i=0; i<= nombreHombres.size(); i++){
+            nombreHombres.add(b1.readLine());
+            //System.out.println(nombreHombres);
+        }
+        for(int i=0; i<= nombreMujeres.size(); i++){
+            nombreMujeres.add(b2.readLine());
+            //System.out.println(nombreMujeres);
+        }
+        for(int i=0; i<= apellidos.size(); i++){
+            apellidos.add(b3.readLine());
+            System.out.println(apellidos);
+        }
+        
         StringBuffer sb = new StringBuffer();
         for (int i = 1; i <= 10; i++) {
             while ((cadena = b3.readLine()) != null) {
-                cadenaHombre = b1.readLine();
+                //cadenaHombre = b1.readLine();
                 cadenaMujer = b2.readLine();
                 sb.append(Cedulagenerator.generate(10));
                 sb.append(',');
@@ -64,7 +82,8 @@ public class tallerEntregableApp {
                 sb.append(',');
                 if(aux!=1)
                 {
-                    sb.append(cadenaHombre);
+                    //sb.append(cadenaHombre);
+                    sb.append(nombreHombres);
                     sb.append(',');
                 } else{
                     sb.append(cadenaMujer);                                        
@@ -105,7 +124,7 @@ public class tallerEntregableApp {
                 sb.append('\n');
             }
         }
-        File file = new File("C://tmp//registroCivil1.txt");
+        File file = new File("C://tmp//registroCivil.txt");
 
         try {
             FileUtils.write(file, sb.toString());
