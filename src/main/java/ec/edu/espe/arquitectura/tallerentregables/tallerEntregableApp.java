@@ -26,6 +26,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.RandomStringGenerator;
 
@@ -36,12 +37,13 @@ import org.apache.commons.text.RandomStringGenerator;
 public class tallerEntregableApp {
 
     public static void main(String[] args) throws IOException {
-        //registroCivil();
-        //clienteTemp();
-        //departamentoEEUU();
-        //consejoJudicatura();
-        //clientesRestringidosConsejo();
-        //clientesRestringidosDepartamento();
+        JOptionPane.showMessageDialog(null, "Este es un jar");
+        registroCivil();
+        clienteTemp();
+        departamentoEEUU();
+        consejoJudicatura();
+        clientesRestringidosConsejo();
+        clientesRestringidosDepartamento();
         posiblesRestringuidos();
     }
 
@@ -443,13 +445,13 @@ public class tallerEntregableApp {
         String segundoApellido = "";
         String tipoCoincide = "";
 
-        for (int i = 0; i < 1; i++) { //10000
+        for (int i = 0; i < 10000; i++) { //10000
             registroCivil.add(registroC.readLine()); //Archivo de Registro Civil
         }
-        for (int i = 0; i < 1; i++) { //500
+        for (int i = 0; i < 500; i++) { //500
             restrinccionEEUU.add(EEUU.readLine()); //Archivo EEUU
         }
-        for (int i = 0; i < 1; i++) { //200
+        for (int i = 0; i < 200; i++) { //200
             restrinccionECU.add(ECU.readLine()); //Archivo ECU
         }
 
@@ -499,7 +501,7 @@ public class tallerEntregableApp {
                 System.out.println(primerNombre + " " + primerApellido);
                 System.out.println("Nombres estados Unidos: "+primerNombreEU+" "+primerApellidoEU);
                 if (cedulaRC.equals(cedulaEEUU)) {
-                    System.out.println("Entra al if");
+                    //System.out.println("Entra al if");
                     tipoCoincide = "Cedula";
                     sb.append(cedulaRC);
                     sb.append(',');
@@ -517,7 +519,7 @@ public class tallerEntregableApp {
                     sb.append(',');
                     sb.append(tipoCoincide);
                 } else {
-                    System.out.println("No coincide ninguno");
+                    //System.out.println("No coincide ninguno");
                 }
                 sb.append('\n');
             }
